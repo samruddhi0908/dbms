@@ -1,0 +1,181 @@
+ubuntu@ubuntu-OptiPlex-5000:~$ mysql-u root -p
+mysql-u: command not found
+ubuntu@ubuntu-OptiPlex-5000:~$ mysql -u root -p
+Enter password: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 8
+Server version: 8.0.30-0ubuntu0.22.04.1 (Ubuntu)
+
+Copyright (c) 2000, 2022, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases
+    -> ;
++--------------------+
+| Database           |
++--------------------+
+| Amezon_product     |
+| Menu               |
+| Movie_list         |
+| PROJECT            |
+| aadarsh            |
+| aakansha           |
+| assignment         |
+| assignment2        |
+| college            |
+| custemerinfo       |
+| database2          |
+| databasename       |
+| employ_info        |
+| employee_track     |
+| information_schema |
+| library            |
+| movie_reviews      |
+| mysql              |
+| performance_schema |
+| pizza_mania        |
+| samiksha           |
+| sample             |
+| school             |
+| shital             |
+| store              |
+| sys                |
+| teachers_info      |
+| tracking           |
++--------------------+
+28 rows in set (0.00 sec)
+
+mysql> use employ_info;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> use table emplye_list;
+ERROR 1049 (42000): Unknown database 'table'
+mysql> show tables;
++-----------------------+
+| Tables_in_employ_info |
++-----------------------+
+| employe_list          |
++-----------------------+
+1 row in set (0.00 sec)
+
+mysql> select * from employ_list;
+ERROR 1146 (42S02): Table 'employ_info.employ_list' doesn't exist
+mysql> select * from employe_list;
++------+--------------+-----------+------------+---------+
+| Srno | Employe_name | EmployeID | Dept_name  | salary  |
++------+--------------+-----------+------------+---------+
+|    1 | Samruddhi    |       103 | Computer   |  450000 |
+|    2 | Affan        |       105 | AIDS       |  240000 |
+|    3 | Sweta        |       203 | Mechanical | 2000000 |
+|    4 | himmanshu    |       304 | Computer   |  110000 |
+|    5 | Shreya       |       402 | IT         |   30000 |
++------+--------------+-----------+------------+---------+
+5 rows in set (0.03 sec)
+
+mysql> select count(*) from employe_list group by Dept_name;
++----------+
+| count(*) |
++----------+
+|        2 |
+|        1 |
+|        1 |
+|        1 |
++----------+
+4 rows in set (0.04 sec)
+
+mysql> select count(name),Dept_name from info group by Dept_name;
+ERROR 1146 (42S02): Table 'employ_info.info' doesn't exist
+mysql> select count(name),Dept_name from employe_list group by Dept_name;
+ERROR 1054 (42S22): Unknown column 'name' in 'field list'
+mysql> select count(Employe_name),Dept_name from employe_list group by Dept_name;
++---------------------+------------+
+| count(Employe_name) | Dept_name  |
++---------------------+------------+
+|                   2 | Computer   |
+|                   1 | AIDS       |
+|                   1 | Mechanical |
+|                   1 | IT         |
++---------------------+------------+
+4 rows in set (0.00 sec)
+
+mysql> selct count(Employe_name),salary from employe_list group by salary having salary >100000;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'selct count(Employe_name),salary from employe_list group by salary having salary' at line 1
+mysql> select count(Employe_name),salary from employe_list group by salary having salary >100000;
++---------------------+---------+
+| count(Employe_name) | salary  |
++---------------------+---------+
+|                   1 |  450000 |
+|                   1 |  240000 |
+|                   1 | 2000000 |
+|                   1 |  110000 |
++---------------------+---------+
+4 rows in set (0.01 sec)
+
+mysql> select count(Employe_name),sum (salary) from employe_list group by Dept_name having Dept_name="computer";
+ERROR 1630 (42000): FUNCTION employ_info.sum does not exist. Check the 'Function Name Parsing and Resolution' section in the Reference Manual
+mysql> select count(Employe_name), sum(salary) from employe_list group by Dept_name having Dept_name="computer";
++---------------------+-------------+
+| count(Employe_name) | sum(salary) |
++---------------------+-------------+
+|                   2 |      560000 |
++---------------------+-------------+
+1 row in set (0.03 sec)
+
+mysql> select avg(salary) from employe_list group by Dept_name having Dept_name="computer";
++-------------+
+| avg(salary) |
++-------------+
+| 280000.0000 |
++-------------+
+1 row in set (0.04 sec)
+
+mysql> select MAX(salary) from employe_list group by Dept_name having Dept_name="computer";
++-------------+
+| MAX(salary) |
++-------------+
+|      450000 |
++-------------+
+1 row in set (0.00 sec)
+
+mysql> select MIN(salary) from employe_list group by Dept_name;
++-------------+
+| MIN(salary) |
++-------------+
+|      110000 |
+|      240000 |
+|     2000000 |
+|       30000 |
++-------------+
+4 rows in set (0.00 sec)
+
+mysql> select COUNT(EmployeID),COUNT(Dept_name) from employe_list group by Dept_name having salary <250000;
+ERROR 1054 (42S22): Unknown column 'salary' in 'having clause'
+mysql> select COUNT(EmployeID),COUNT(Dept_name) from employe_list group by salary having salary <250000;
++------------------+------------------+
+| COUNT(EmployeID) | COUNT(Dept_name) |
++------------------+------------------+
+|                1 |                1 |
+|                1 |                1 |
+|                1 |                1 |
++------------------+------------------+
+3 rows in set (0.00 sec)
+
+mysql> select COUNT(EmployeID),salary from employe_list group by salary having salary <250000;
++------------------+--------+
+| COUNT(EmployeID) | salary |
++------------------+--------+
+|                1 | 240000 |
+|                1 | 110000 |
+|                1 |  30000 |
++------------------+--------+
+3 rows in set (0.00 sec)
+
+mysql> EXIT;
+Bye
