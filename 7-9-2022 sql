@@ -1,0 +1,23 @@
+DECLARE 
+	VAR1 NUMBER :=1;
+	VAR2 NUMBER :=0;
+BEGIN
+	WHILE VAR1<10 Loop
+	   VAR2:=VAR2+VAR1;
+	   VAR1:=VAR1+1;
+	END LOOP;
+dbms_output.put_line('sum of number '||VAR2);
+END;
+/
+
+OUTPUT:-
+SQL> edit prog4
+
+SQL> @prog4
+sum of number 45
+
+PL/SQL procedure successfully completed.
+
+SQL> edit prog4.sql
+
+
