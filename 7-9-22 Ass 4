@@ -1,0 +1,37 @@
+create table borrow(roll_no integer,name varchar(20),date_of_issue date,book_name varchar(20), status varchar(20));
+
+create table fine(roll_no integer,sys_date date,fine integer);
+
+insert into borrow values(1,'shreya','8-7-22','dbms','i');
+insert into borrow values(2,'samruddhi','12-7-22','cns','r');
+insert into borrow values(6,'kiya','5-6-22','toc','i');
+insert into borrow values(7,'himanshu','11-8-22','spos','i');
+insert into borrow values(3,'affan','12-3-22','cns','i');
+insert into borrow values(10,'adity','9-8-22','dsal','r');
+insert into borrow values(53,'nidhi','1-8-22','pbl','i');
+insert into borrow values(26,'atharva','2-6-22','ppl','i');
+insert into borrow values(29,'atharva','3-10-22','coc','r');
+insert into borrow values(51,'atharva','7-5-22','m3','i');
+insert into borrow values(62,'atharva','10-9-22','dm','r');
+insert into borrow values(70,'kavya','4-6-22','fds','r');
+
+select * from borrow;
+/* 
+DECLARE
+
+output
+ROLL_NO	NAME	DATE_OF_ISSUE	BOOK_NAME	STATUS
+1	shreya	08/07/0022	dbms	i
+2	samruddhi	12/07/0022	cns	r
+2	samruddhi	12/07/0022	cns	r
+6	kiya	05/06/0022	toc	i
+7	himanshu	11/08/0022	spos	i
+3	affan	12/03/0022	cns	i
+10	adity	09/08/0022	dsal	r
+53	nidhi	01/08/0022	pbl	i
+26	atharva	02/06/0022	ppl	i
+51	atharva	07/05/0022	m3	i
+62	atharva	10/09/0022	dm	r
+70	kavya	04/06/0022	fds	r
+70	kavya	04/06/0022	fds	r
+13 rows returned in 0.01 seconds	        	Download
