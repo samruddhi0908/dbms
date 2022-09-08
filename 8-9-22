@@ -1,0 +1,35 @@
+/*
+
+create table borrow(roll_no integer,name varchar(20),date_of_issue date,book_name varchar(20), status varchar(20));
+
+create table fine(roll_no integer,sys_date date,fine integer);
+
+insert into borrow values(1,'shreya','8-7-22','dbms','i');
+insert into borrow values(2,'samruddhi','12-7-22','cns','i');
+insert into borrow values(6,'kiya','5-6-22','toc','i');
+insert into borrow values(7,'himanshu','11-8-22','spos','i');
+insert into borrow values(3,'affan','12-3-22','cns','i');
+insert into borrow values(10,'adity','9-8-22','dsal','i');
+insert into borrow values(53,'nidhi','1-8-22','pbl','i');
+insert into borrow values(26,'atharva','2-6-22','ppl','i');
+insert into borrow values(29,'kurpa','3-10-22','coc','i');
+insert into borrow values(51,'arnav','7-5-22','m3','i');
+insert into borrow values(62,'sweta','10-9-22','dm','i');
+insert into borrow values(70,'kavya','4-6-22','fds','i');
+
+select * from borrow;
+*/
+
+DECLARE
+rollno number;
+book_name varcha(20);
+amt int;
+system_date date;
+doi_date;
+no_of_days number;
+BEGIN
+rollno:=:rollno;
+name:=:name;
+select sysdate into system_date from dual;
+select date_of_issue into doi from borrow where roll_no=rollno and book_name=name;
+dbms_output.put_line(doi);
