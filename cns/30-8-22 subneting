@@ -1,0 +1,103 @@
+#include<iostream>
+#include<bitset>
+using namespace std;
+
+int main()
+{
+    int part1, part2, part3, part4;
+    cout<<"Enter part1 : ";
+    cin>>part1;
+    cout<<"Enter part2 : ";
+    cin>>part2;
+    cout<<"Enter part3 : ";
+    cin>>part3;
+    cout<<"Enter part4 : ";
+    cin>>part4;
+
+    cout<<"Entered IP ADDRESS : "<<part1<<"."<<part2<<"."<<part3<<"."<<part4<<endl;
+
+    string bp1 = bitset<8>(part1).to_string();
+    string bp2 = bitset<8>(part2).to_string();
+    string bp3 = bitset<8>(part3).to_string();
+    string bp4 = bitset<8>(part4).to_string();
+
+    cout<<"Binary form of entered IP ADDRESS : "<<bp1<<"."<<bp2<<"."<<bp3<<"."<<bp4<<endl;
+
+    string ip_class;
+
+    if(part1>=0 && part1<=126){
+        ip_class = "A";
+    }
+    else if(part1>=128 && part1<=191){
+        ip_class = "B";
+    }
+    else if(part1>=192 && part1<=223){
+        ip_class = "C";
+    }
+    else if(part1>=224 && part1<=239){
+        ip_class = "D";
+    }
+    else if(part1>=240 && part1<=255){
+        ip_class = "E";
+    }
+    int sn1;
+    int sn2;
+    int sn3;
+    int sn4;
+    if(ip_class=="A"){
+        sn1 = 11111111;
+        sn2 = 00000000;
+        sn3 = 00000000;
+        sn4 = 00000000;
+    }
+    else if(ip_class=="B"){
+        sn1 = 11111111;
+        sn2 = 11111111;
+        sn3 = 00000000;
+        sn4 = 00000000;
+    }
+    else if(ip_class=="C"){
+        sn1 = 11111111;
+        sn2 = 11111111;
+        sn3 = 11111111;
+        sn4 = 00000000;
+    }
+    else if(ip_class=="D"){
+        sn1 = 11111111;
+        sn2 = 11111111;
+        sn3 = 11111111;
+        sn4 = 11111111;
+    }
+    
+
+    cout<<"Subnet : "<<sn1<<"."<<sn2<<"."<<sn3<<"."<<sn4<<endl;
+    cout<<"Class : "<<ip_class<<endl;
+
+    cout<<bp1 && sn1;
+    cout<<".";
+    cout<<bp2 && sn2;
+    cout<<".";
+    cout<<bp3 && sn3;
+    cout<<".";
+    cout<<bp4 && sn4;
+
+    return 0;
+}
+
+
+
+OUTPUT:-
+Enter part1 : 192
+Enter part2 : 168
+Enter part3 : 123
+Enter part4 : 132
+Entered IP ADDRESS : 192.168.123.132
+Binary form of entered IP ADDRESS : 11000000.10101000.01111011.10000100
+Subnet : 11111111.11111111.11111111.0
+Class : C
+11000000.10101000.01111011.10000100
+
+...Program finished with exit code 0
+Press ENTER to exit console.
+
+
