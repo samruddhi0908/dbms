@@ -184,3 +184,4 @@ mysql> select * from same_country;
 |       1 | Maria Anders | Germeny |      NULL |
 +---------+--------------+---------+-----------+
 2 rows in set (0.00 sec)
+
