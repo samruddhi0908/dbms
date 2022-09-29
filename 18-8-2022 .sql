@@ -152,3 +152,4 @@ mysql> select * from employe_list where EmployeID = (select EmployeID from emplo
 |    1 | Samruddhi    |       103 | Computer  | 450000 |
 +------+--------------+-----------+-----------+--------+
 1 row in set (0.00 sec)
+  
