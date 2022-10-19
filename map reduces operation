@@ -41,27 +41,27 @@ students
 
 Assignment> db.createCollection('studentdata')
 { ok: 1 }
-Assignment> db.studentdata.insertOne({"name":"Ram","marks":50,"age":20})
+Assignment> db.studentdata.insertOne({"name":"Riya","marks":50,"age":20})
 {
   acknowledged: true,
   insertedId: ObjectId("634aecbb3f64334b14a2f5f8")
 }
-Assignment> db.studentdata.insertOne({"name":"Raman","marks":70,"age":20})
+Assignment> db.studentdata.insertOne({"name":"Sam","marks":70,"age":20})
 {
   acknowledged: true,
   insertedId: ObjectId("634aecc83f64334b14a2f5f9")
 }
-Assignment> db.studentdata.insertOne({"name":"Aman","marks":80,"age":22})
+Assignment> db.studentdata.insertOne({"name":"kiya","marks":80,"age":22})
 {
   acknowledged: true,
   insertedId: ObjectId("634aecd53f64334b14a2f5fa")
 }
-Assignment> db.studentdata.insertOne({"name":"praveen","marks":85,"age":23})
+Assignment> db.studentdata.insertOne({"name":"priya","marks":85,"age":23})
 {
   acknowledged: true,
   insertedId: ObjectId("634aece63f64334b14a2f5fb")
 }
-Assignment> db.studentdata.insertOne({"name":"Ashutosh","marks":90,"age":25})
+Assignment> db.studentdata.insertOne({"name":"Aditi","marks":90,"age":25})
 {
   acknowledged: true,
   insertedId: ObjectId("634aecf63f64334b14a2f5fc")
