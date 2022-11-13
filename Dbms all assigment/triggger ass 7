@@ -1,0 +1,283 @@
+/*
+CREATE TABLE lib_tab(book_name VARCHAR2(25),status VARCHAR2(15));
+CREATE TABLE library_audit(date_modified DATE, book_name VARCHAR2(25),old_status VARCHAR(15),new_status VARCHAR2(15),action VARCHAR2(25));
+
+
+INSERT INTO lib_tab VALUES('DARK MATTER','AVAILABLE');
+INSERT INTO lib_tab VALUES('SILENT HILL','UNAVAILABLE');
+INSERT INTO lib_tab VALUES('GOD OF WAR','AVAILABLE');
+INSERT INTO lib_tab VALUES('SPIDER-MAN','UNAVAILABLE');
+INSERT INTO lib_tab VALUES('UNCHARTED','AVAILABLE');
+*/
+
+CREATE OR REPLACE TRIGGER trigger_1 
+AFTER UPDATE OR DELETE ON lib_tab FOR EACH ROW
+ENABLE
+	DECLARE
+		aud_bookname lib_tab.book_name%TYPE;
+	BEGIN
+		IF UPDATING THEN
+			aud_bookname := :OLD.book_name;
+			dbms_output.put_line(:OLD.status);
+			INSERT INTO library_audit VALUES (SYSDATE,aud_bookname,:OLD.status,:NEW.status,'UPDATE');
+		ELSE
+			dbms_output.put_line(:OLD.book_name||'deleting');
+			INSERT INTO library_audit VALUES(SYSDATE,:OLD.book_name,:OLD.status,NULL,'DELETE');
+		END IF;
+	END;
+/
+
+
+OUTPUT:-
+ubuntu@ubuntu-OptiPlex-5000:~$ 
+ubuntu@ubuntu-OptiPlex-5000:~$ sqlplus
+
+SQL*Plus: Release 11.2.0.2.0 Production on Fri Sep 23 10:36:16 2022
+
+Copyright (c) 1982, 2011, Oracle.  All rights reserved.
+
+Enter user-name: system
+Enter password: 
+ERROR:
+ORA-01017: invalid username/password; logon denied
+
+
+Enter user-name: system
+Enter password: 
+ERROR:
+ORA-01017: invalid username/password; logon denied
+
+
+Enter user-name: system
+Enter password: 
+ERROR:
+ORA-01017: invalid username/password; logon denied
+
+
+SP2-0157: unable to CONNECT to ORACLE after 3 attempts, exiting SQL*Plus
+ubuntu@ubuntu-OptiPlex-5000:~$ sqlplus
+
+SQL*Plus: Release 11.2.0.2.0 Production on Fri Sep 23 10:37:09 2022
+
+Copyright (c) 1982, 2011, Oracle.  All rights reserved.
+
+Enter user-name: system
+Enter password: 
+
+Connected to:
+Oracle Database 11g Express Edition Release 11.2.0.2.0 - 64bit Production
+
+SQL> @'/home/ubuntu/Desktop/pro.sql' 
+
+Trigger created.
+
+SQL> select * from lib_tab;
+
+BOOK_NAME		  STATUS
+------------------------- ---------------
+DARK MATTER		  AVAILABLE
+SILENT HILL		  Available
+GOD OF WAR		  AVAILABLE
+SPIDER-MAN		  Available
+UNCHARTED		  AVAILABLE
+UNCHARTED		  AVAILABLE
+MATTER			  UNAVAILABLE
+
+7 rows selected.
+
+SQL> select * from library_audit;
+
+DATE_MOD BOOK_NAME		   OLD_STATUS	   NEW_STATUS
+-------- ------------------------- --------------- ---------------
+ACTION
+-------------------------
+22-09-22 SILENT HILL		   UNAVAILABLE	   Available
+UPDATE
+
+22-09-22 SPIDER-MAN		   UNAVAILABLE	   Available
+UPDATE
+
+
+SQL> update lib_tab set status='Available' where book_name='MATTER';
+
+1 row updated.
+
+SQL> select * from lib_tab;
+
+BOOK_NAME		  STATUS
+------------------------- ---------------
+DARK MATTER		  AVAILABLE
+SILENT HILL		  Available
+GOD OF WAR		  AVAILABLE
+SPIDER-MAN		  Available
+UNCHARTED		  AVAILABLE
+UNCHARTED		  AVAILABLE
+MATTER			  Available
+
+7 rows selected.
+
+SQL> select * from library_audit;
+
+DATE_MOD BOOK_NAME		   OLD_STATUS	   NEW_STATUS
+-------- ------------------------- --------------- ---------------
+ACTION
+-------------------------
+22-09-22 SILENT HILL		   UNAVAILABLE	   Available
+UPDATE
+
+22-09-22 SPIDER-MAN		   UNAVAILABLE	   Available
+UPDATE
+
+23-09-22 MATTER 		   UNAVAILABLE	   Available
+UPDATE
+
+
+SQL> @'/home/ubuntu/Desktop/pro.sql' 
+
+Trigger created.
+
+SQL> insert into lib_tab values('DBMS', 'Ordered');
+
+1 row created.
+
+SQL> select * from lib_tab;
+
+BOOK_NAME		  STATUS
+------------------------- ---------------
+DARK MATTER		  AVAILABLE
+SILENT HILL		  Available
+GOD OF WAR		  AVAILABLE
+SPIDER-MAN		  Available
+UNCHARTED		  AVAILABLE
+UNCHARTED		  AVAILABLE
+MATTER			  Available
+DBMS			  Ordered
+
+8 rows selected.
+
+SQL> selct * from library_audit;
+SP2-0734: unknown command beginning "selct * fr..." - rest of line ignored.
+SQL> select * from library_audit;
+
+DATE_MOD BOOK_NAME		   OLD_STATUS	   NEW_STATUS
+-------- ------------------------- --------------- ---------------
+ACTION
+-------------------------
+22-09-22 SILENT HILL		   UNAVAILABLE	   Available
+UPDATE
+
+22-09-22 SPIDER-MAN		   UNAVAILABLE	   Available
+UPDATE
+
+23-09-22 MATTER 		   UNAVAILABLE	   Available
+UPDATE
+
+
+DATE_MOD BOOK_NAME		   OLD_STATUS	   NEW_STATUS
+-------- ------------------------- --------------- ---------------
+ACTION
+-------------------------
+23-09-22 DBMS					   Ordered
+INSERT
+
+
+SQL> @'/home/ubuntu/Desktop/pro.sql' ;
+
+Trigger created.
+
+SQL> @'/home/ubuntu/Desktop/pro.sql' ;
+
+Trigger created.
+
+SQL> select * from lib_tab;
+
+BOOK_NAME		  STATUS
+------------------------- ---------------
+DARK MATTER		  AVAILABLE
+SILENT HILL		  Available
+GOD OF WAR		  AVAILABLE
+SPIDER-MAN		  Available
+UNCHARTED		  AVAILABLE
+UNCHARTED		  AVAILABLE
+MATTER			  Available
+DBMS			  Ordered
+
+8 rows selected.
+
+SQL> update lib_tab set status='Available' where book_name='DBMS';
+
+1 row updated.
+
+SQL> select * from library_audit;
+
+DATE_MOD BOOK_NAME		   OLD_STATUS	   NEW_STATUS
+-------- ------------------------- --------------- ---------------
+ACTION
+-------------------------
+22-09-22 SILENT HILL		   UNAVAILABLE	   Available
+UPDATE
+
+22-09-22 SPIDER-MAN		   UNAVAILABLE	   Available
+UPDATE
+
+23-09-22 MATTER 		   UNAVAILABLE	   Available
+UPDATE
+
+
+DATE_MOD BOOK_NAME		   OLD_STATUS	   NEW_STATUS
+-------- ------------------------- --------------- ---------------
+ACTION
+-------------------------
+23-09-22 DBMS					   Ordered
+INSERT
+
+23-09-22 DBMS			   Ordered	   Available
+UPDATE
+
+
+SQL> @'/home/ubuntu/Desktop/pro.sql' ;
+
+Trigger created.
+
+SQL> @'/home/ubuntu/Desktop/pro.sql' ;
+
+Trigger created.
+
+SQL> update lib_tab set status='Ordered' where book_name='DBMS';          
+
+1 row updated.
+
+SQL> sudo apt-get install rlwrap;
+SP2-0734: unknown command beginning "sudo apt-g..." - rest of line ignored.
+SQL> sudo apt-get install rlwrap;
+SP2-0734: unknown command beginning "sudo apt-g..." - rest of line ignored.
+SQL> ^C
+
+SQL> ^X
+SP2-0042: unknown command "" - rest of line ignored.
+SQL> ^Z
+SQL> ^C
+
+SQL> exit
+Disconnected from Oracle Database 11g Express Edition Release 11.2.0.2.0 - 64bit Production
+ubuntu@ubuntu-OptiPlex-5000:~$ sudo apt-get install rlwrap;
+[sudo] password for ubuntu: 
+Reading package lists... Done
+Building dependency tree... Done
+Reading state information... Done
+rlwrap is already the newest version (0.43-1build3).
+0 upgraded, 0 newly installed, 0 to remove and 190 not upgraded.
+ubuntu@ubuntu-OptiPlex-5000:~$ rlwrap sqlplus
+
+SQL*Plus: Release 11.2.0.2.0 Production on Fri Sep 23 11:05:13 2022
+
+Copyright (c) 1982, 2011, Oracle.  All rights reserved.
+
+system
+Enter password: 
+
+Connected to:
+Oracle Database 11g Express Edition Release 11.2.0.2.0 - 64bit Production
+
+set serveroutput on;
+SQL> set serveroutput on;
